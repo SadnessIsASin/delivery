@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="1" author="Paul">
+        <createSchema schemaName="delivery"/>
+        <rollback>
+            <dropSchema schemaName="delivery" cascade="true"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="2" author="Paul">
+        <createTable schemaName="delivery" tableName="orders">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="createdat" type="timestamp">
+            </column>
+            <column name="status" type="varchar(20)">
+            </column>
+            <column name="shippingaddress" type="varchar(50)">
+            </column>
+            <column name="pickupaddress" type="varchar(1000)">
+            </column>
+            <column name="orderitems" type="varchar(1000)">
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable schemaName="delivery" tableName="orders"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
