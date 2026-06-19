@@ -2,7 +2,7 @@ package com.hereyougo.delivery.order.service;
 
 import com.hereyougo.delivery.order.dto.UpdateOrderDto;
 import com.hereyougo.delivery.order.entity.Order;
-import com.hereyougo.delivery.order.exception.OrderNotFoundException;
+import com.hereyougo.delivery.exception.OrderNotFoundException;
 import com.hereyougo.delivery.order.repository.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;

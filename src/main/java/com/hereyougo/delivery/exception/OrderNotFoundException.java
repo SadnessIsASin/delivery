@@ -1,4 +1,4 @@
-package com.hereyougo.delivery.order.exception;
+package com.hereyougo.delivery.exception;
 
 public class OrderNotFoundException extends RuntimeException {
     public OrderNotFoundException (String message) {

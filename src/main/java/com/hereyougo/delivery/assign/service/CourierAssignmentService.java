@@ -3,11 +3,9 @@ package com.hereyougo.delivery.assign.service;
 import com.hereyougo.delivery.courier.entity.Courier;
 import com.hereyougo.delivery.courier.entity.CourierStatus;
 import com.hereyougo.delivery.courier.repository.CourierRepository;
-import com.hereyougo.delivery.order.dto.UpdateOrderDto;
 import com.hereyougo.delivery.order.entity.Order;
 import com.hereyougo.delivery.order.entity.OrderStatus;
 import com.hereyougo.delivery.order.repository.OrderRepository;
-import com.hereyougo.delivery.order.service.OrderService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @Slf4j
@@ -75,13 +72,11 @@ public class CourierAssignmentService {
     }
 
     public List<Order> searchNewOrders () {
-        List<Order> newOrders = orderRepository.findByStatusAndCourierIsNull(OrderStatus.NEW);
-        return newOrders;
+        return orderRepository.findByStatusAndCourierIsNull(OrderStatus.NEW);
     }
 
     public List<Courier> searchFreeCouriers(){
-         List<Courier> freeCouriers = courierRepository.findCourierByStatus(CourierStatus.FREE);
-         return freeCouriers;
+        return courierRepository.findCourierByStatus(CourierStatus.FREE);
     }
 
 }

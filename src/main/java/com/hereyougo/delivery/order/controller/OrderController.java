@@ -20,9 +20,11 @@ import java.util.*;
 @CrossOrigin(origins = "http://localhost:3000")
 public class OrderController {
     private final OrderService orderService;
+    private final OrderMapper orderMapper;
 
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, OrderMapper orderMapper) {
         this.orderService = orderService;
+        this.orderMapper = orderMapper;
     }
 
     @GetMapping
@@ -36,15 +38,15 @@ public class OrderController {
     @GetMapping("/{id}")
     public ResponseEntity<OrderResponseDto> getOrderById(@PathVariable UUID id){
         Order order = orderService.getOrderById(id);
-        return ResponseEntity.ok(OrderMapper.toDto(order));
+        return ResponseEntity.ok(orderMapper.toDto(order));
     }
 
     @PostMapping
     public ResponseEntity<OrderResponseDto> createOrder(@Valid @RequestBody CreateOrderRequestDto dto){
-        Order order = OrderMapper.toEntity(dto);
+        Order order = orderMapper.toEntity(dto);
         Order savedOrder = orderService.saveOrder(order);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(OrderMapper.toDto(savedOrder));
+                .body(orderMapper.toDto(savedOrder));
     }
 
     @PatchMapping("/{id}")

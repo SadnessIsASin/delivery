@@ -1,6 +1,8 @@
 package com.hereyougo.delivery.courier.controller;
 
+import com.hereyougo.delivery.courier.dto.CourierResponseDto;
 import com.hereyougo.delivery.courier.entity.Courier;
+import com.hereyougo.delivery.courier.mapper.CourierMapper;
 import com.hereyougo.delivery.courier.service.CourierService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,13 +12,17 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("api/v1/couriers")
+@RequestMapping(CourierController.API_PATH)
 public class CourierController {
 
-    private final CourierService courierService;
+    public static final String API_PATH = "api/v1/couriers";
 
-    public CourierController (CourierService courierService){
+    private final CourierService courierService;
+    private final CourierMapper courierMapper;
+
+    public CourierController (CourierService courierService, CourierMapper courierMapper){
         this.courierService = courierService;
+        this.courierMapper = courierMapper;
     }
 
     @GetMapping
@@ -25,8 +31,9 @@ public class CourierController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Courier> getCourierById(@PathVariable UUID id) {
-        return ResponseEntity.ok(courierService.getCourierById(id));
+    public ResponseEntity<CourierResponseDto> getCourierById(@PathVariable UUID id) {
+        Courier courier = courierService.getCourierById(id);
+        return ResponseEntity.ok(courierMapper.toDto(courier));
     }
 
     @PostMapping
@@ -36,7 +43,7 @@ public class CourierController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCourier(@PathVariable UUID id){
-        courierService.removeCourier(id);
+        courierService.deleteCourier(id);
         return ResponseEntity.noContent().build();
     }
 

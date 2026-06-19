@@ -1,7 +1,9 @@
 package com.hereyougo.delivery.courier.service;
 
 import com.hereyougo.delivery.courier.entity.Courier;
+import com.hereyougo.delivery.exception.CourierNotFoundException;
 import com.hereyougo.delivery.courier.repository.CourierRepository;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -24,18 +26,18 @@ public class CourierService {
 
     public Courier getCourierById (UUID id){
         return courierRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException());
+                .orElseThrow(() -> new CourierNotFoundException("Курьер не найден"));
     }
 
     public Courier addCourier(Courier courier){
         return courierRepository.save(courier);
     }
 
-    public void removeCourier(UUID id){
-        if(!courierRepository.existsById(id)){
-            throw new RuntimeException();
-        }
-        courierRepository.deleteById(id);
+    @Transactional
+    public void deleteCourier(UUID id){
+        Courier courier = courierRepository.findById(id)
+                .orElseThrow(() -> new CourierNotFoundException("Курьер не найден"));
+        courierRepository.delete(courier);
     }
 
 }
